@@ -15,14 +15,31 @@
     </style>
 </head>
 <body>
-<ul>
-    <h4>
-        <li><div th:utext ="${user.getId()}">...</div></li>
-        <li><div th:utext ="${user.getName()}">...</div></li>
-        <li><div th:utext ="${user.getAge()}">...</div></li>
-        <li><div th:utext ="${user.getRoles()[0].name}">...</div></li>
-        <br/>
-    </h4>
-</ul>
+
+
+<div>
+    <table border="2" width="600" align="center">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>age</th>
+            <th>Role</th>
+            <th>Logout</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><div th:utext ="${user.getId()}">...</div></td>
+            <td><div th:utext ="${user.getName()}">...</div></td>
+            <td><div th:utext ="${user.getAge()}">...</div></td>
+            <td><div th:utext ="${user.getRoles()[0].name}">...</div></td>
+            <td>
+                <a href="/logout">Logout</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
