@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+    <style>
+        ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <h4>
+        <li><div th:utext ="${user.getId()}">...</div></li>
+        <li><div th:utext ="${user.getName()}">...</div></li>
+        <li><div th:utext ="${user.getAge()}">...</div></li>
+        <li><div th:utext ="${user.getRoles()[0].name}">...</div></li>
+        <br/>
+    </h4>
+</ul>
+</body>
+</html>
