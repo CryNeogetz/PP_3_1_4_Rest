@@ -1,10 +1,8 @@
 package ru.kata.spring.boot_security.demo.models;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,13 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -32,14 +26,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", length = 100)
-    private String name;
+    @Column(name = "first_name", length = 100)
+    private String firstName;
+
+    @Column(name = "last_name", length = 100)
+    private String lastName;
 
     @Column(name = "age")
     private int age;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password")
     private String password;
@@ -56,9 +53,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, int age) {
-        this.name = name;
+    public User(String firstName, String lastName, int age) {
+        this.firstName = firstName;
         this.age = age;
+        this.lastName = lastName;
     }
 
     public int getId() {
@@ -69,14 +67,6 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getAge() {
         return age;
     }
@@ -85,8 +75,28 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setPassword(String password) {
@@ -113,7 +123,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return getEmail();
     }
 
     @Override

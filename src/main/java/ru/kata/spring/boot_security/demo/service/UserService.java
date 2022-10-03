@@ -5,8 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +18,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     public User findUserById(int userId) {
@@ -34,9 +38,9 @@ public class UserService {
 
     @Transactional
     public void saveUser(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
+        Optional<User> userFromDB = userRepository.findByEmail(user.getUsername());
 
-        if (userFromDB != null) {
+        if (userFromDB.isPresent()) {
             return;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -53,11 +57,32 @@ public class UserService {
     @Transactional
     public void updateUserById(User user) {
         if (user.getPassword().isEmpty()) {
-            user.setPassword(userRepository.findByUsername(user.getUsername()).getPassword());
+
+            if (userRepository.findByEmail(user.getUsername()).isPresent()) {
+                user.setPassword(userRepository.findByEmail(user.getUsername()).get().getPassword());
+            }
+
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+
         userRepository.save(user);
+    }
+
+    @PostConstruct
+    @Transactional
+    public void doMyInit() {
+
+        User admin = new User("Admin1", "Admin1", 23);
+        admin.setEmail("admin1@mail.ru");
+        admin.setPassword(passwordEncoder.encode("admin1"));
+        admin.setRoles(roleRepository.findAll());
+
+        if (userRepository.findByEmail(admin.getEmail()).isEmpty()) {
+            userRepository.save(admin);
+        }
+
+
     }
 
 }
