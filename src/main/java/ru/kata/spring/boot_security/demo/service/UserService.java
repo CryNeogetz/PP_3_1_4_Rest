@@ -78,9 +78,7 @@ public class UserService {
         admin.setPassword(passwordEncoder.encode("admin1"));
         admin.setRoles(roleRepository.findAll());
 
-        if (userRepository.findByEmail(admin.getEmail()).isEmpty()) {
-            userRepository.save(admin);
-        }
+        saveUser(admin);
 
 
     }
