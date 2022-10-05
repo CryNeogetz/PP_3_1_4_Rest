@@ -99,9 +99,13 @@ public class User implements UserDetails {
         return email;
     }
 
+
+
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 
     public List<Role> getRoles() {
         return roles;

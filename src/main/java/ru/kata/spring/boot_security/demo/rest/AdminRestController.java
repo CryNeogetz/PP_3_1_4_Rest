@@ -1,7 +1,9 @@
-package ru.kata.spring.boot_security.demo.controller;
+package ru.kata.spring.boot_security.demo.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,12 +31,12 @@ public class AdminRestController {
 
 
     @GetMapping("/admin")
-    public ResponseEntity<List<Role>> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
 
         List<User> allUsers = userService.allUsers();
         List<Role> roles = roleService.findAll();
 
-        return allUsers != null ? new ResponseEntity<>(roles, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return allUsers != null ? new ResponseEntity<>(allUsers, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 //
 //    @PatchMapping("/{id}")
