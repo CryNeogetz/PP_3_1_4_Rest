@@ -172,6 +172,8 @@ editUserForm.addEventListener('submit', (e) => {
 
 
 // DELETE user
+let currentUserId = null;
+
 on(document, 'click', '#delete-user', e => {
     const userInfo = e.target.parentNode.parentNode
 
@@ -188,7 +190,6 @@ on(document, 'click', '#delete-user', e => {
 })
 
 
-let currentUserId = null;
 const deleteUserForm = document.querySelector('#deleteModel')
 deleteUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
