@@ -60,11 +60,6 @@ fetch(url, {mode: 'cors'})
 // ADD user
 
 const addUserForm = document.querySelector('#addUserForm')
-const addUsername = document.getElementById('firstNameCreate')
-const addLastName = document.getElementById('lastNameCreate')
-const addEmail = document.getElementById('emailCreate')
-const addAge = document.getElementById('ageCreate')
-const addPassword = document.getElementById('passwordCreate')
 const addRoles = document.getElementById('roleCreate')
 console.log(addRoles)
 
@@ -133,7 +128,8 @@ on(document, 'click', '#edit-user', e => {
     $("#editModal").modal("show")
 })
 
-const editUserForm = document.querySelector('#editModal')
+
+const editUserForm = document.getElementById('editForm')
 editUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(document.getElementById('editForm'));
@@ -157,7 +153,7 @@ editUserForm.addEventListener('submit', (e) => {
     });
 
 
-    fetch("api/admin/"+document.getElementById('idEdit').value, {
+    fetch("api/admin/"+ object.id, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
@@ -166,13 +162,32 @@ editUserForm.addEventListener('submit', (e) => {
         },
         body: JSON.stringify(object)
     })
-        .then(res => res.json()).then(data => updateUser(data))
+        .then(res => res.json())
+        .then(data => updateUser(data))
         .catch((e) => console.error(e))
 
     $("#editModal").modal("hide")
 })
 
+
+
 // DELETE user
+on(document, 'click', '#delete-user', e => {
+    const userInfo = e.target.parentNode.parentNode
+
+    currentUserId = userInfo.children[0].innerHTML
+
+    document.getElementById('idDelete').value = userInfo.children[0].innerHTML
+    document.getElementById('firstNameDelete').value = userInfo.children[1].innerHTML
+    document.getElementById('lastNameDelete').value = userInfo.children[2].innerHTML
+    document.getElementById('ageDelete').value = userInfo.children[3].innerHTML
+    document.getElementById('emailDelete').value = userInfo.children[4].innerHTML
+    document.getElementById('roleDelete').value = userInfo.children[5].innerHTML
+
+    $("#deleteModel").modal("show")
+})
+
+
 let currentUserId = null;
 const deleteUserForm = document.querySelector('#deleteModel')
 deleteUserForm.addEventListener('submit', (e) => {
@@ -188,19 +203,4 @@ deleteUserForm.addEventListener('submit', (e) => {
             });
             $("#deleteModel").modal("hide")
         })
-})
-
-on(document, 'click', '#delete-user', e => {
-    const userInfo = e.target.parentNode.parentNode
-
-    currentUserId = userInfo.children[0].innerHTML
-
-    document.getElementById('idDelete').value = userInfo.children[0].innerHTML
-    document.getElementById('firstNameDelete').value = userInfo.children[1].innerHTML
-    document.getElementById('lastNameDelete').value = userInfo.children[2].innerHTML
-    document.getElementById('ageDelete').value = userInfo.children[3].innerHTML
-    document.getElementById('emailDelete').value = userInfo.children[4].innerHTML
-    document.getElementById('roleDelete').value = userInfo.children[5].innerHTML
-
-    $("#deleteModel").modal("show")
 })
