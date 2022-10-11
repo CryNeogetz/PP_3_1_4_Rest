@@ -36,6 +36,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow();
+    }
+
     @Transactional
     public void saveUser(User user) {
         Optional<User> userFromDB = userRepository.findByEmail(user.getUsername());
@@ -55,7 +59,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserById(User user) {
+    public void updateUser(User user) {
         if (user.getPassword().isEmpty()) {
 
             if (userRepository.findByEmail(user.getUsername()).isPresent()) {
