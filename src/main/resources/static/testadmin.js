@@ -60,14 +60,13 @@ fetch(url, {mode: 'cors'})
 
 // ADD user
 
-const addUserForm = document.querySelector('#addUserForm')
+const addUserForm = document.getElementById('addUserForm')
 const addRoles = document.getElementById('roleCreate')
 console.log(addRoles)
 
 addUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const addForm = document.getElementById("addUserForm");
-    const formData = new FormData(addForm);
+    const formData = new FormData(addUserForm);
     const object = {
         roles: []
     };
@@ -91,13 +90,15 @@ addUserForm.addEventListener('submit', (e) => {
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Referer': null
         },
         body: JSON.stringify(object)
     })
-        .then(res => res.json())
+        // .then(res => res.json())
         .then(data => updateUser(data))
-        .then(() => addForm.reset())
+        .then(() => addUserForm.reset())
         .catch((e) => console.error(e))
 
     return show('usersTable','newUser');
@@ -119,7 +120,7 @@ on(document, 'click', '#edit-user', e => {
     document.getElementById('idEdit').value = userInfo.children[0].innerHTML
     document.getElementById('firstNameEdit').value = userInfo.children[1].innerHTML
     document.getElementById('lastNameEdit').value = userInfo.children[2].innerHTML
-    document.getElementById('passwordEdit').value = userInfo.children[6].innerHTML
+    document.getElementById('passwordEdit').value = ''
     document.getElementById('ageEdit').value = userInfo.children[3].innerHTML
     document.getElementById('emailEdit').value = userInfo.children[4].innerHTML
     document.getElementById('roleEdit').value = userInfo.children[5].innerHTML
@@ -163,7 +164,6 @@ editUserForm.addEventListener('submit', (e) => {
         },
         body: JSON.stringify(object)
     })
-        .then(res => res.json())
         .then(data => updateUser(data))
         .catch((e) => console.error(e))
 

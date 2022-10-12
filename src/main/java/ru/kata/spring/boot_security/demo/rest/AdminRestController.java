@@ -58,7 +58,7 @@ public class AdminRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "{id}", consumes = {"*/*"})
+    @PutMapping(value = "{id}")
     public ResponseEntity<?> updateUser(@RequestBody User updateUser) {
         userService.updateUser(updateUser);
         return new ResponseEntity<>(HttpStatus.OK);
