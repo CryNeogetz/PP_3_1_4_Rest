@@ -1,5 +1,8 @@
+const url = 'api/admin'
+const info = document.querySelector('#UserInfo');
+
 const renderUsers = async (users) => {
-    const response = await fetch("/api/admin");
+    const response = await fetch(url);
 
     if (response.ok) {
         let json = await response.json()
@@ -47,8 +50,6 @@ const removeUser = (id) => {
 }
 
 // GET ALL users
-const info = document.querySelector('#UserInfo');
-const url = 'api/admin'
 
 fetch(url, {mode: 'cors'})
     .then(res => res.json())
@@ -87,7 +88,7 @@ addUserForm.addEventListener('submit', (e) => {
     });
 
 
-    fetch("api/admin", {
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -153,7 +154,7 @@ editUserForm.addEventListener('submit', (e) => {
     });
 
 
-    fetch("api/admin/"+ object.id, {
+    fetch('api/admin/'+ object.id, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
